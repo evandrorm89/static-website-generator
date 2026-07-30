@@ -8,7 +8,7 @@ class HTMLNode:
     ):
         self.tag = tag
         self.value = value
-        self.children = children if children is not None else []
+        self.children = children
         self.props = props
 
     def to_html(self):
@@ -26,4 +26,4 @@ class HTMLNode:
         return props
 
     def __repr__(self):
-        return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
+        return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
