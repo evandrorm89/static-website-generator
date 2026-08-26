@@ -26,3 +26,12 @@ class TestParentNode(unittest.TestCase):
         self.assertEqual(
             parent_node.to_html(), "<div><span>child1</span><span>child2</span></div>"
         )
+
+    def test_to_html_with_text_inbetween(self):
+        child_node1 = LeafNode(None, "This is ")
+        child_node2 = LeafNode("b", "bolded")
+        child_node3 = LeafNode(None, " paragraph text")
+        parent_node = ParentNode("p", [child_node1, child_node2, child_node3])
+        self.assertEqual(
+            parent_node.to_html(), "<p>This is <b>bolded</b> paragraph text</p>"
+        )
