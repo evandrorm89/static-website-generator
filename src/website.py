@@ -1,32 +1,16 @@
 import os
-from os.path import isfile
 import shutil
 
 
-def copy_static():
-    if os.path.exists("./public/"):
-        shutil.rmtree("./public/")
-    os.mkdir("./public/")
+def copy_static(source_dir_path: str, dest_dir_path: str) -> None:
+    if not os.path.exists(dest_dir_path):
+        os.mkdir(dest_dir_path)
 
-    if os.path.exists("./static/"):
-        recursive_copy("./static/", "./public/")
-        # for file in os.listdir("./static/"):
-        #     file_path = os.path.join("./static/", file)
-        #     if os.path.isfile(file_path):
-        #         shutil.copy(file_path, "./public/")
-
-
-def recursive_copy(current_dir: str, dest_dir: str):
-    print("current_dir:", current_dir)
-    contents = os.listdir(current_dir)
-    print("contents:", contents)
-    for content in contents:
-        if os.path.isfile(os.path.join(current_dir, content)):
-            print("file_content", content)
-            file_path = os.path.join(current_dir, content)
-            shutil.copy(file_path, dest_dir)
+    for filename in os.listdir(source_dir_path):
+        from_path = os.path.join(source_dir_path, filename)
+        dest_path = os.path.join(dest_dir_path, filename)
+        print(f" * {from_path} -> {dest_path}")
+        if os.path.isfile(from_path):
+            shutil.copy2(from_path, dest_path)
         else:
-            next_dir = os.path.join(current_dir, content)
-            next_dest_dir = os.path.join(dest_dir, content)
-            os.mkdir(next_dest_dir)
-            recursive_copy(next_dir, next_dest_dir)
+            copy_static(from_path, dest_path)
